@@ -3,6 +3,7 @@ name = "exosphere-core"
 version = "0.0.1"
 authors = ["Kenneth Wilke <kenneth.wilke@gmail.com>"]
 edition = "2021"
+description = "Core crate for Exosphere"
 repository = "https://github.com/KennethWilke/exosphere-core"
 license = "MIT"
 
