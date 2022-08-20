@@ -1,17 +1,16 @@
-use rmpv::Value;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
-
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Operation {
+    pub operation: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
-    pub operation: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub request: Option<Value>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OperationReply {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
@@ -19,15 +18,15 @@ pub struct OperationReply {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub results: Option<Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub error: Option<String>
+    pub error: Option<String>,
 }
 
 impl Operation {
     pub fn new(operation: impl ToString, id: Option<i64>, request: Option<Value>) -> Self {
         let operation = operation.to_string();
         Operation {
-            id,
             operation,
+            id,
             request,
         }
     }
@@ -47,16 +46,16 @@ impl OperationReply {
             id,
             success: true,
             results,
-            error: None
+            error: None,
         }
     }
 
-    pub fn new_error(id: Option<i64>, error: String) -> Self {
+    pub fn new_error(id: Option<i64>, error: impl ToString) -> Self {
         Self {
             id,
             success: false,
             results: None,
-            error: Some(error)
+            error: Some(error.to_string()),
         }
     }
 }
